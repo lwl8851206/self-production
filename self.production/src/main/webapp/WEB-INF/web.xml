@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE web-app PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN" "http://java.sun.com/dtd/web-app_2_3.dtd">
+<web-app>
+  
+  <!-- tomcat启动时会在WEB-INF目录下寻找mapi-servlet.xml作为spring的配置文件。不定义这个context-param的话，tomcat启动时候会默认去WEB-INF目录下寻找applicationContext.xml -->
+  <context-param>
+    <param-name>contextConfigLocation</param-name>
+    <param-value>
+        /WEB-INF/itzcn-servlet.xml
+    </param-value>
+</context-param>
+
+<!-- 表示走spring mvc流程 -->
+<listener> 
+    <listener-class>
+        org.springframework.web.context.ContextLoaderListener
+    </listener-class> 
+</listener>
+
+	<!-- 表示将所有do结尾的请求全部交由mapi处理，mapi.xml里面有详细的处理逻辑,此时会去寻找mapi-servlet.xml文件 -->
+    <servlet>
+        <servlet-name>mapi</servlet-name>  
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>  
+        <load-on-startup>1</load-on-startup>  
+    </servlet>  
+    <servlet-mapping>      <!-- 拦截所有以 do 结尾的请求 -->  
+        <servlet-name>mapi</servlet-name>  
+        <url-pattern>*.do</url-pattern>  
+    </servlet-mapping> 
+
+</web-app>
