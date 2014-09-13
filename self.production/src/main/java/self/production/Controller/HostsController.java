@@ -1,0 +1,122 @@
+package self.production.Controller;
+
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.*;
+
+import self.production.model.hosts.Hosts;
+import self.production.util.HostsUtil;
+import self.production.util.ServersUtil;
+
+@Controller
+public class HostsController {// 通过扩展Controller接口定义处理器
+	public static Logger logger = LoggerFactory
+			.getLogger(HostsController.class);
+
+	// 匹配/index.do?nick=fdf,并且参数nick自动赋给nickName,ModelMap可以存储变量，传给模版
+	@RequestMapping("/hostschange/getHosts.do")
+	@ResponseBody
+	public String getHosts(@RequestParam("isprivate") String isPrivate) {
+
+		List<String> hosts = null;
+		hosts = HostsUtil.getOnesHostsList("public");
+		JSONObject obj = new JSONObject();
+		obj.accumulate("count", hosts.size());
+		obj.accumulate("hostsList", hosts);
+		if (logger.isDebugEnabled())
+			logger.debug("get hosts: " + hosts.size() + "hosts");
+		return obj.toString();
+	}
+
+	@RequestMapping("/index.do")
+	public String index(ModelMap mm) {
+		HashSet<String> serversSet = ServersUtil.getServers();
+		String[] servers = new String[serversSet.size()];
+		serversSet.toArray(servers);
+		mm.addAttribute("servers", servers);
+		for (String server : servers)
+			System.out.println(server);
+		return "spring/index";
+	}
+
+	@RequestMapping("/hosts/deleteHosts.do")
+	@ResponseBody
+	public String deleteHosts(HttpServletRequest rq) {
+		String owner = rq.getParameter("owner");
+		String hosts = rq.getParameter("hosts");
+		if (owner == null || hosts == null)
+			return String.format("params [\"%s\" or \"%s\"] must mot be empty",
+					"hosts", "owner");
+		HostsUtil.deleteHostsForOne(owner, hosts);
+		return String.format("you haved deleted hosts[%s] from server[%s]",
+				hosts, owner);
+
+	}
+
+	@RequestMapping("/hosts/createHosts.do")
+	@ResponseBody
+	public String createHosts(HttpServletRequest rq) {
+		String owner = rq.getParameter("owner");
+		String hosts = rq.getParameter("hosts");
+		if (owner == null || hosts == null)
+			return String.format("params [\"%s\" or \"%s\"] must mot be empty",
+					"hosts", "owner");
+		HostsUtil.createHostsForOne(owner, hosts, "nimei");
+		return String.format("you have create hosts[%s] for owner[%s]", hosts, owner);
+	}
+	
+	@RequestMapping("/hosts/readHostsContent.do")
+	@ResponseBody
+	public String readHostsContent(HttpServletRequest rq) {
+		String owner = rq.getParameter("owner");
+		String hosts = rq.getParameter("hosts");
+		if (owner == null || hosts == null)
+			return String.format("params [\"%s\" or \"%s\"] must mot be empty",
+					"hosts", "owner");		
+
+		return String.format("hosts[%s]'s content: <br>%s", hosts, HostsUtil.getHostsContent(owner, hosts));
+	}
+	
+	@RequestMapping("/hosts/editHostsContent.do")
+	@ResponseBody
+	public String editHostsContent(HttpServletRequest rq) {
+		String owner = rq.getParameter("owner");
+		String hosts = rq.getParameter("hosts");
+		String content = rq.getParameter("hostsContent");
+		if (owner == null || hosts == null)
+			return String.format("params [\"%s\" or \"%s\" or \"%s\"] must mot be empty",
+					"hosts", "owner", "hostsContent");				
+		HostsUtil.editHostsContent(owner, hosts, content);
+		return String.format("hosts[%s]'s content is updated, content is below:<br>%s", hosts, HostsUtil.getHostsContent(owner, hosts));
+	}
+	
+	@RequestMapping("/hosts/copyHosts.do")
+	@ResponseBody
+	public String copyHosts(HttpServletRequest rq) {
+		String owner = rq.getParameter("owner");
+		String from = rq.getParameter("from");
+		String hosts = rq.getParameter("hosts");
+		if (owner == null || hosts == null)
+			return String.format("params [\"%s\" or \"%s\" or \"%s\"] must mot be empty",
+					"hosts", "owner", "from");
+		HostsUtil.copyHosts(owner, from, hosts);
+		return String.format("copy hosts[%s] from %s to %s--done", hosts, from, owner);
+	}
+}

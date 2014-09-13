@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd"
+>
+
+	<bean class="self.production.Controller.HostsController">
+	</bean>
+	<bean class="self.production.Controller.ServersController"></bean>
+    <!-- ②：启动Spring MVC的注解功能，完成请求和注解POJO的映射 -->
+    <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter"/>
+
+
+<!-- 使用注释mapping的时候，BeanNameUrlHandlerMapping一定要注释掉，否则会使用旧有的规则如<bean name="/index.do" class="dfd"> -->
+<!--  <bean class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping">
+    <property name="interceptors">
+        <list>
+            <bean class="web.MyHandlerInterceptor" />
+        </list>
+    </property>
+</bean>  -->
+    <!-- 配置视图解析器  -->
+	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+	    <property name="prefix" ><!-- 前缀 -->
+	       <value>/</value>
+	    </property>
+	    <property name="suffix"><!-- 后缀 -->
+	       <value>.jsp</value>
+	    </property>
+	</bean>
+</beans>
