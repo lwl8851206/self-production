@@ -1,4 +1,4 @@
-package self.production.Controller;
+package self.production.controller;
 
 import javax.servlet.http.HttpServletRequest;
 

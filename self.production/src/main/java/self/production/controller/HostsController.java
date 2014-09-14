@@ -1,4 +1,4 @@
-package self.production.Controller;
+package self.production.controller;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -12,6 +12,7 @@ import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,6 +23,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.*;
 
 import self.production.model.hosts.Hosts;
+import self.production.model.hosts.HostsList;
 import self.production.util.HostsUtil;
 import self.production.util.ServersUtil;
 
@@ -31,18 +33,12 @@ public class HostsController {// 通过扩展Controller接口定义处理器
 			.getLogger(HostsController.class);
 
 	// 匹配/index.do?nick=fdf,并且参数nick自动赋给nickName,ModelMap可以存储变量，传给模版
-	@RequestMapping("/hostschange/getHosts.do")
+	@RequestMapping("/hosts/getHosts.do")
 	@ResponseBody
-	public String getHosts(@RequestParam("isprivate") String isPrivate) {
-
+	public HostsList getHosts(@RequestParam("owner") String owner) {
 		List<String> hosts = null;
-		hosts = HostsUtil.getOnesHostsList("public");
-		JSONObject obj = new JSONObject();
-		obj.accumulate("count", hosts.size());
-		obj.accumulate("hostsList", hosts);
-		if (logger.isDebugEnabled())
-			logger.debug("get hosts: " + hosts.size() + "hosts");
-		return obj.toString();
+		hosts = HostsUtil.getOnesHostsList(owner);
+		return new HostsList(hosts.size(), hosts);
 	}
 
 	@RequestMapping("/index.do")
@@ -53,7 +49,7 @@ public class HostsController {// 通过扩展Controller接口定义处理器
 		mm.addAttribute("servers", servers);
 		for (String server : servers)
 			System.out.println(server);
-		return "spring/index";
+		return "index";
 	}
 
 	@RequestMapping("/hosts/deleteHosts.do")
@@ -118,5 +114,10 @@ public class HostsController {// 通过扩展Controller接口定义处理器
 					"hosts", "owner", "from");
 		HostsUtil.copyHosts(owner, from, hosts);
 		return String.format("copy hosts[%s] from %s to %s--done", hosts, from, owner);
+	}
+	
+	@ModelAttribute("already")
+	public String generateAlready() {
+		return "i am already here";
 	}
 }

@@ -184,6 +184,7 @@ public class FileUtil {
 	 * @return
 	 */
 	public static Properties readProperties(String file) {
+		System.out.printf("try to read file : %s", file);
 		Properties props = new Properties();
 		FileInputStream fi = null;
 		File f = new File(file);

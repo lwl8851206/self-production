@@ -4,40 +4,32 @@
 
 var hostsChangeController = angular.module('hostsChangeController', []);
 
-hostsChangeController.controller('HostsChangeCtrl', ['$scope',
-  function($scope) {
-	//拿到hosts参数
-/*	$scope.hosts = ($routeParams.hosts == null);*/
-	
-	//获取当前的可提供切换的hosts列表
-	$scope.getHosts = function() {
-	
-		jQuery.ajax({
-			url : "hostschange/getHosts.do",
-			data : {
-				"isprivate": "false"
-			},
-			async : true,
-			success : function(data) {
-				
-				$scope.$apply(function(scope) {
-					
-					var jsonData = JSON.parse(data);
-					if (jsonData != null) {
-						scope.hostsInfo = jsonData;
-					}					
-				});	
-				
+hostsChangeController.controller('HostsChangeCtrl', [ '$scope',
+		function($scope) {
+			// 拿到hosts参数
+			/* $scope.hosts = ($routeParams.hosts == null); */
+			// 获取当前的可提供切换的hosts列表
+			$scope.loadHosts = function(owner) {
+				jQuery.ajax({
+					url : "hosts/getHosts.do",
+					data : {
+						"owner" : owner
+					},
+					success : function(data) {
+						$scope.$apply(function(scope) {
+							if (data != null) {
+								scope.hostsInfo = data;
+							}
+						});
+
+					}
+				});
 			}
-		});		
-	}
-	
-	$scope.clickIt = function() {
-		alert("shit");
-	}
-	$scope.getHosts();
-	
-    
-  }]);
 
+			// 获取某服务器下可用的hosts列表
+			$scope.getOnesHostsList = function(target) {
+//				$scope.loadHosts(owner);
+				$scope.loadHosts(target.innerHTML);
+			}
 
+		} ]);

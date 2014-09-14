@@ -1,19 +1,15 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<!DOCTYPE html>
 
-<%
-	String basePath = request.getScheme() + "://"
-			+ request.getServerName() + ":" + request.getServerPort()
-			 +application.getContextPath() + "/";
-%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html ng-app="hostsChangeController">
-<head>
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+
+
+	<head th:fragment="head">
+<meta charset="utf-8"></meta>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"></meta>
+<meta name="viewport" content="width=device-width, initial-scale=1"></meta>
 <!-- Bootstrap -->
-<link href="assets/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<link href="assets/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet"></link>
 
 <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -27,5 +23,9 @@
 <script src="assets/lib/bootstrap/js/bootstrap.min.js"></script>
 
 <title>管理首页</title>
-<base href="<%=basePath%>">
-</head>
+	<base th:href="@{/}"></base>
+	</head>
+
+
+
+</html>
