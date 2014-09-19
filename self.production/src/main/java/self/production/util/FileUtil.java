@@ -102,8 +102,12 @@ public class FileUtil {
 	 */
 	public static void editFile(String dir, String file, String content) {
 		FileWriter os = null;
-		createFile(dir, file);
+		System.out.println("dir:" + dir);
+		System.out.println("file:" + file);
+		System.out.println("content:\n" + content);
 			try {
+				//无论是否有文件存在，都一定会将内容写入文件
+				createFile(dir, file);
 				os = new FileWriter(dir + "/" + file);
 				System.out.println("write content: " + content);
 				os.write(content);

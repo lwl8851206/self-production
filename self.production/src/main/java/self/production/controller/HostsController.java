@@ -15,6 +15,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -22,8 +23,10 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.*;
 
+import self.production.model.HostsContent;
 import self.production.model.hosts.Hosts;
 import self.production.model.hosts.HostsList;
+import self.production.util.FileUtil;
 import self.production.util.HostsUtil;
 import self.production.util.ServersUtil;
 
@@ -33,12 +36,13 @@ public class HostsController {// 通过扩展Controller接口定义处理器
 			.getLogger(HostsController.class);
 
 	// 匹配/index.do?nick=fdf,并且参数nick自动赋给nickName,ModelMap可以存储变量，传给模版
-	@RequestMapping("/hosts/getHosts.do")
-	@ResponseBody
-	public HostsList getHosts(@RequestParam("owner") String owner) {
-		List<String> hosts = null;
-		hosts = HostsUtil.getOnesHostsList(owner);
-		return new HostsList(hosts.size(), hosts);
+	@RequestMapping("/hosts/hostsManager.do")
+	public String getHosts(@RequestParam("owner") String owner, ModelMap mm) {
+		List<String> hostsList = null;
+		hostsList = HostsUtil.getOnesHostsList(owner);
+		mm.addAttribute("hostsList", hostsList);
+		mm.addAttribute("owner", owner);
+		return "hosts-manager";
 	}
 
 	@RequestMapping("/index.do")
@@ -53,29 +57,32 @@ public class HostsController {// 通过扩展Controller接口定义处理器
 	}
 
 	@RequestMapping("/hosts/deleteHosts.do")
-	@ResponseBody
 	public String deleteHosts(HttpServletRequest rq) {
 		String owner = rq.getParameter("owner");
 		String hosts = rq.getParameter("hosts");
 		if (owner == null || hosts == null)
-			return String.format("params [\"%s\" or \"%s\"] must mot be empty",
-					"hosts", "owner");
+			System.out.println(String.format("params [\"%s\" or \"%s\"] must mot be empty",
+					"hosts", "owner"));
 		HostsUtil.deleteHostsForOne(owner, hosts);
-		return String.format("you haved deleted hosts[%s] from server[%s]",
-				hosts, owner);
-
+		System.out.println(String.format("you haved deleted hosts[%s] from server[%s]",
+				hosts, owner));
+		return "redirect:/hosts/hostsManager.do?owner=" + owner;
 	}
 
-	@RequestMapping("/hosts/createHosts.do")
-	@ResponseBody
-	public String createHosts(HttpServletRequest rq) {
-		String owner = rq.getParameter("owner");
-		String hosts = rq.getParameter("hosts");
-		if (owner == null || hosts == null)
-			return String.format("params [\"%s\" or \"%s\"] must mot be empty",
-					"hosts", "owner");
-		HostsUtil.createHostsForOne(owner, hosts, "nimei");
-		return String.format("you have create hosts[%s] for owner[%s]", hosts, owner);
+	@RequestMapping(value="/hosts/createHosts.do", method=RequestMethod.POST)
+	public String createHosts(HttpServletRequest rq,@ModelAttribute HostsContent hostsContent) {
+		HostsUtil.createHostsForOne(hostsContent.getHostsOwner(), hostsContent.getHostsName(), hostsContent.getHostsContent());
+		System.out.println(String.format("you have create hosts[%s] for owner[%s]", hostsContent.getHostsName(), hostsContent.getHostsOwner()));
+		return "redirect:/hosts/hostsManager.do?owner=" + hostsContent.getHostsOwner();
+	}
+	
+	@RequestMapping("/hosts/addHosts.do")
+	public String addHost(@RequestParam("owner") String owner, @RequestParam(value="hosts", required=false) String hosts, ModelMap mm) {
+		mm.addAttribute("owner", owner);
+		mm.addAttribute("hosts", hosts == null ? "" : hosts);
+		mm.addAttribute("content", hosts == null ? "" : HostsUtil.getHostsContent(owner, hosts));
+		mm.addAttribute("hostsContent", new HostsContent());
+		return "hosts-add";
 	}
 	
 	@RequestMapping("/hosts/readHostsContent.do")

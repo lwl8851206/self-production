@@ -25,6 +25,47 @@ hostsChangeController.controller('HostsChangeCtrl', [ '$scope',
 					}
 				});
 			}
+			
+			/**
+			 * 更改hosts
+			 */
+			$scope.changeHosts = function(hosts) {
+				jQuery.ajax({
+					url : "hosts/changeHosts.do",
+					data : {
+						"owner" : owner
+					},
+					success : function(data) {
+						$scope.$apply(function(scope) {
+							if (data != null) {
+								scope.changeResult = data;
+							}
+						});
+
+					}
+				});				
+			}
+			
+			/**
+			 * 删除hosts
+			 */
+			$scope.deleteHosts = function(hosts) {
+				jQuery.ajax({
+					url : "hosts/deleteHosts.do",
+					data : {
+						"owner" : owner
+					},
+					success : function(data) {
+						$scope.$apply(function(scope) {
+							if (data != null) {
+								scope.changeResult = data;
+							}
+						});
+
+					}
+				});				
+			}				
+			
 
 			// 获取某服务器下可用的hosts列表
 			$scope.getOnesHostsList = function(target) {

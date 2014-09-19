@@ -1,0 +1,6 @@
+@CHARSET "UTF-8";
+
+.item-hover:hover {
+	background: rgba(0,0,0,0.3);
+	cursor: pointer;
+}

@@ -1,8 +1,6 @@
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring3-3.dtd">
-<html 
-xmlns="http://www.w3.org/1999/xhtml"
-xmlns:th="http://www.thymeleaf.org"
- ng-app="hostsChangeController">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org" ng-app="hostsChangeController">
 <head th:include="fragment/header :: head"></head>
 
 <body ng-controller="HostsChangeCtrl">
@@ -44,21 +42,18 @@ xmlns:th="http://www.thymeleaf.org"
 				<div class="row">
 					<div class="col-md-4">
 						<div class="list-group">
-							<span class="list-group-item"  th:each="server : ${servers}" th:text="${server}"  ng-click="getOnesHostsList($event.target)"  ></span>
+							<a class="list-group-item item-hover"
+								th:each="server : ${servers}" th:text="${server}"
+								th:href="@{/hosts/hostsManager.do(owner=${server})}"></a>
 						</div>
 
 					</div>
-					<div class="col-md-6">
-						<div class="list-group">
-							<a href="#" class="list-group-item"
-								ng-repeat="hosts in hostsInfo.hostsList">{{hosts}}</a>
-						</div>
-					</div>
+
 				</div>
 			</div>
 		</div>
 
-		
+
 	</section>
 	<script src="assets/lib/angular/angular.min.js"></script>
 	<script src="assets/public/js/hostschangeController.js"></script>
