@@ -1,0 +1,88 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring3-3.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org" ng-app="hostsManagerController">
+<head th:include="fragment/header :: head"></head>
+
+<body ng-controller="HostsManagerCtrl">
+	<nav class="navbar navbar-inverse" role="navigation">
+		<div class="container-fluid">
+			<!-- Brand and toggle get grouped for better mobile display -->
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed"
+					data-toggle="collapse" data-target="#bs-example-navbar-collapse-9">
+					<span class="sr-only">Toggle navigation</span> <span
+						class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="#">TEST</a>
+			</div>
+
+			<!-- Collect the nav links, forms, and other content for toggling -->
+			<div class="collapse navbar-collapse"
+				id="bs-example-navbar-collapse-9">
+				<ul class="nav navbar-nav">
+					<li class="active"><a href="#">切换hosts</a></li>
+					<li><a href="#">同步数据库</a></li>
+					<li><a href="#">更换war包</a></li>
+				</ul>
+			</div>
+			<!-- /.navbar-collapse -->
+		</div>
+		<!-- /.container-fluid -->
+	</nav>
+
+	<section>
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title" th:inline="text" ><a th:href="@{index.do}">hosts管理</a>-->[[${owner}]]</h3>
+				<input id="server" type="hidden" th:value="${owner}"></input>
+			</div>
+			<div class="panel-body">
+				<div class="row">
+					<div class="col-md-6">
+						<div class="list-group">
+							<div class="list-group-item"
+								th:each ="hosts : ${hostsList}" th:if="${not #lists.isEmpty(hostsList)}" th:inline="text">
+								 [[${hosts}]]
+								 <span id="changehosts"
+									class="text-info badge  pull-right item-hover"
+									ng-click="changeHosts(hosts);">切换至该hosts</span>
+									<a
+									id="deletehosts"
+									class="text-danger badge  pull-right item-hover"
+									th:href="@{/hosts/deleteHosts.do(owner=${owner}, hosts=${hosts})}">删除hosts</a>
+									<a
+									id="edithosts"  th:href="@{/hosts/addHosts.do(owner=${owner}, hosts=${hosts})}"
+									class="text-success badge  pull-right item-hover"
+									>编辑hosts</a>
+									
+							</div>
+							<div class="list-group-item alert-info"  th:if="${not #lists.isEmpty(hostsList)}">
+								<a class="item-hover center"  th:href="@{/hosts/addHosts.do(owner=${owner})}">增加hosts</a>
+								&nbsp;
+								<a class="item-hover center"  th:href="@{/hosts/addHosts.do(owner=${owner})}">拷贝公有的hosts</a>
+							</div>
+						</div>
+
+						<div id="none-hosts" th:if="${#lists.isEmpty(hostsList)}">
+							当前服务器没有可用的hosts列表.
+							<ul>
+								<li><span class="item-hover" ng-click="copyHost($event.target);">拷贝公有的hosts</span></li>
+								<li><a class="item-hover"  th:href="@{/hosts/addHosts.do(owner=${owner})}">增加自己的hosts</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+		
+	</section>
+	<script src="assets/lib/angular/angular.min.js"></script>
+	<script src="assets/public/js/hostsmanagerController.js"></script>
+
+
+
+
+</body>
+</html>

@@ -11,14 +11,14 @@ hostsManagerController.controller('HostsManagerCtrl', [ '$scope',
 			// 获取当前的可提供切换的hosts列表
 			$scope.loadHosts = function(owner) {
 				jQuery.ajax({
-					url : "hosts/getHosts.do",
+					url : "hosts/getOnesHosts.do",
 					data : {
 						"owner" : owner
 					},
 					success : function(data) {
 						$scope.$apply(function(scope) {
 							if (data != null) {
-								scope.hostsInfo = data;
+								scope.hostsList = data.hostsList;
 							}
 						});
 
@@ -74,11 +74,29 @@ hostsManagerController.controller('HostsManagerCtrl', [ '$scope',
 			/**
 			 *  获取某服务器下可用的hosts列表
 			 */
-			$scope.getOnesHostsList = function(target) {
+			$scope.getOnesHostsList = function(server) {
 //				$scope.loadHosts(owner);
-				$scope.loadHosts(target.innerHTML);
+				$scope.loadHosts(server);
 			}
 			
+			/**
+			 * 获取可用服务器列表
+			 */
+			$scope.getServers = function() {
+				jQuery.ajax({
+					url : "servers/getServers.do",
+					data : {},
+					success : function(data) {
+						$scope.$apply(function(scope) {
+							if (data != null) {
+								//scope.loadHosts(jQuery("#server").val());
+								$scope.servers = eval(data);
+							}
+						});
+
+					}
+				});					
+			}
 			/**
 			 * 拷贝hosts
 			 */

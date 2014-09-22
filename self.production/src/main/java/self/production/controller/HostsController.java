@@ -44,6 +44,14 @@ public class HostsController {// 通过扩展Controller接口定义处理器
 		return "hosts-manager";
 	}
 
+	@RequestMapping("/hosts/getOnesHosts.do")
+	@ResponseBody
+	public HostsList getOnesHosts(@RequestParam("owner") String owner, ModelMap mm) {
+		List<String> hostsList = null;
+		hostsList = HostsUtil.getOnesHostsList(owner);
+		return new HostsList(owner, hostsList.size(), hostsList);
+	}
+
 	@RequestMapping("/index.do")
 	public String index(ModelMap mm) {
 		HashSet<String> serversSet = ServersUtil.getServers();
@@ -60,30 +68,39 @@ public class HostsController {// 通过扩展Controller接口定义处理器
 		String owner = rq.getParameter("owner");
 		String hosts = rq.getParameter("hosts");
 		if (owner == null || hosts == null)
-			System.out.println(String.format("params [\"%s\" or \"%s\"] must mot be empty",
-					"hosts", "owner"));
+			System.out.println(String.format(
+					"params [\"%s\" or \"%s\"] must mot be empty", "hosts",
+					"owner"));
 		HostsUtil.deleteHostsForOne(owner, hosts);
-		System.out.println(String.format("you haved deleted hosts[%s] from server[%s]",
-				hosts, owner));
+		System.out.println(String.format(
+				"you haved deleted hosts[%s] from server[%s]", hosts, owner));
 		return "redirect:/hosts/hostsManager.do?owner=" + owner;
 	}
 
-	@RequestMapping(value="/hosts/createHosts.do", method=RequestMethod.POST)
-	public String createHosts(HttpServletRequest rq,@ModelAttribute HostsContent hostsContent) {
-		HostsUtil.createHostsForOne(hostsContent.getHostsOwner(), hostsContent.getHostsName(), hostsContent.getHostsContent());
-		System.out.println(String.format("you have create hosts[%s] for owner[%s]", hostsContent.getHostsName(), hostsContent.getHostsOwner()));
-		return "redirect:/hosts/hostsManager.do?owner=" + hostsContent.getHostsOwner();
+	@RequestMapping(value = "/hosts/createHosts.do", method = RequestMethod.POST)
+	public String createHosts(HttpServletRequest rq,
+			@ModelAttribute HostsContent hostsContent) {
+		HostsUtil.createHostsForOne(hostsContent.getHostsOwner(),
+				hostsContent.getHostsName(), hostsContent.getHostsContent());
+		System.out.println(String.format(
+				"you have create hosts[%s] for owner[%s]",
+				hostsContent.getHostsName(), hostsContent.getHostsOwner()));
+		return "redirect:/hosts/hostsManager.do?owner="
+				+ hostsContent.getHostsOwner();
 	}
-	
+
 	@RequestMapping("/hosts/addHosts.do")
-	public String addHost(@RequestParam("owner") String owner, @RequestParam(value="hosts", required=false) String hosts, ModelMap mm) {
+	public String addHost(@RequestParam("owner") String owner,
+			@RequestParam(value = "hosts", required = false) String hosts,
+			ModelMap mm) {
 		mm.addAttribute("owner", owner);
 		mm.addAttribute("hosts", hosts == null ? "" : hosts);
-		mm.addAttribute("content", hosts == null ? "" : HostsUtil.getHostsContent(owner, hosts));
+		mm.addAttribute("content",
+				hosts == null ? "" : HostsUtil.getHostsContent(owner, hosts));
 		mm.addAttribute("hostsContent", new HostsContent());
 		return "hosts-add";
 	}
-	
+
 	@RequestMapping("/hosts/readHostsContent.do")
 	@ResponseBody
 	public String readHostsContent(HttpServletRequest rq) {
@@ -91,11 +108,12 @@ public class HostsController {// 通过扩展Controller接口定义处理器
 		String hosts = rq.getParameter("hosts");
 		if (owner == null || hosts == null)
 			return String.format("params [\"%s\" or \"%s\"] must mot be empty",
-					"hosts", "owner");		
+					"hosts", "owner");
 
-		return String.format("hosts[%s]'s content: <br>%s", hosts, HostsUtil.getHostsContent(owner, hosts));
+		return String.format("hosts[%s]'s content: <br>%s", hosts,
+				HostsUtil.getHostsContent(owner, hosts));
 	}
-	
+
 	@RequestMapping("/hosts/editHostsContent.do")
 	@ResponseBody
 	public String editHostsContent(HttpServletRequest rq) {
@@ -103,25 +121,32 @@ public class HostsController {// 通过扩展Controller接口定义处理器
 		String hosts = rq.getParameter("hosts");
 		String content = rq.getParameter("hostsContent");
 		if (owner == null || hosts == null)
-			return String.format("params [\"%s\" or \"%s\" or \"%s\"] must mot be empty",
-					"hosts", "owner", "hostsContent");				
+			return String.format(
+					"params [\"%s\" or \"%s\" or \"%s\"] must mot be empty",
+					"hosts", "owner", "hostsContent");
 		HostsUtil.editHostsContent(owner, hosts, content);
-		return String.format("hosts[%s]'s content is updated, content is below:<br>%s", hosts, HostsUtil.getHostsContent(owner, hosts));
+		return String.format(
+				"hosts[%s]'s content is updated, content is below:<br>%s",
+				hosts, HostsUtil.getHostsContent(owner, hosts));
 	}
-	
+
 	@RequestMapping("/hosts/copyHosts.do")
-	@ResponseBody
 	public String copyHosts(HttpServletRequest rq) {
 		String owner = rq.getParameter("owner");
-		String from = rq.getParameter("from");
-		String hosts = rq.getParameter("hosts");
-		if (owner == null || hosts == null)
-			return String.format("params [\"%s\" or \"%s\" or \"%s\"] must mot be empty",
+		String server = rq.getParameter("server");
+		String[] hostsList = rq.getParameterValues("hosts");
+		String hostsStrList = hostsList[0];
+		if (hostsStrList.length() >2) 
+		for (int i = 1; i < hostsList.length; i++)
+			hostsStrList += "," + hostsList[i];
+		if (owner == null || hostsStrList == null)
+			return String.format(
+					"params [\"%s\" or \"%s\" or \"%s\"] must mot be empty",
 					"hosts", "owner", "from");
-		HostsUtil.copyHosts(owner, from, hosts);
-		return String.format("copy hosts[%s] from %s to %s--done", hosts, from, owner);
+		HostsUtil.copyHosts(owner, server, hostsStrList);
+		return "redirect:/hosts/hostsManager.do?owner=" + owner;
 	}
-	
+
 	@ModelAttribute("already")
 	public String generateAlready() {
 		return "i am already here";

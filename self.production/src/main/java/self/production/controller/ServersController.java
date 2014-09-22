@@ -2,6 +2,7 @@ package self.production.controller;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.json.JSONArray;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -34,6 +35,13 @@ public class ServersController {
 			return String.format("param ['%s'] must not be empty", "removedServer");
 		ServersUtil.removeServers(removedServer);
 		return String.format("you have removed server[%s]", removedServer);		
+	}
+	
+	@RequestMapping("/servers/getServers.do")
+	@ResponseBody
+	public String getServers() {
+		JSONArray jsonArr = new JSONArray(ServersUtil.getServers());
+		return jsonArr.toString();
 	}
 
 }

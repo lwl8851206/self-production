@@ -5,7 +5,15 @@ import java.util.List;
 public class HostsList {
 	private int count;
 	private List hostsList;
-	
+	private String owner;
+	public String getOwner() {
+		return owner;
+	}
+
+	public void setOwner(String owner) {
+		this.owner = owner;
+	}
+
 	public int getCount() {
 		return count;
 	}
@@ -22,8 +30,9 @@ public class HostsList {
 		this.hostsList = hostsList;
 	}
 
-	public HostsList(int count, List hostsList) {
+	public HostsList(String owner, int count, List hostsList) {
 		// TODO Auto-generated constructor stub
+		this.owner = owner;
 		this.count = count;
 		this.hostsList = hostsList;
 	}
