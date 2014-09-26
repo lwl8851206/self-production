@@ -21,7 +21,7 @@ public class IPInterceptor implements HandlerInterceptor{
 			HttpServletResponse httpservletresponse, Object obj)
 			throws Exception {
 		// TODO Auto-generated method stub
-		String ipLimitProperties = FileUtil.readProperties("/usr/local/apache-tomcat-7.0.42/webapps/self.production/WEB-INF/classes/iplimit.properties").getProperty("ip");
+		String ipLimitProperties = FileUtil.readProperties(IP_LIMIT_CONFIG_FILE).getProperty("ip");
 		if (ipLimitProperties == null || ipLimitProperties.equals(""))
 			return false;
 		
