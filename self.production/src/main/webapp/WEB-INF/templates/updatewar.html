@@ -1,0 +1,44 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring3-3.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org" ng-app="hostsManagerController">
+<head th:include="fragment/header :: head"></head>
+
+<body ng-controller="">
+<nav th:include="fragment/header::nav" class="navbar navbar-inverse" role="navigation"></nav>
+	<section>
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title" th:inline="text">
+					选择服务器
+				</h3>
+				<!-- 	<input id="server" type="hidden" th:value="${owner}"></input> -->
+			</div>
+			<div class="panel-body">
+				<div class="row">
+					<div class="col-md-6">
+							<div class="form-group">
+										更新方式：<input type="radio" value="svn" name="sourceKind"><label>svn</label>&nbsp;<input type="radio" value="ftp" name="sourceKind"><label>ftp</label> 
+							</div>
+							<div class="form-group">
+								<input type="text" name="path" placeholder="请附上完整的路径">
+							</div>
+
+							<div class="form-group">
+								<div class="col-sm-offset-2 col-sm-10">
+									<span class="btn btn-danger">更新</span>
+								</div>
+							</div>
+					
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</section>
+	<script src="assets/lib/angular/angular.min.js"></script>
+
+
+
+
+</body>
+</html>

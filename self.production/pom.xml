@@ -87,8 +87,16 @@
 			<version>1.9.15</version>
 		</dependency>
 	</dependencies>
-
+	
+   
+        
 	<build>
 		<finalName>self-production</finalName>
+                <plugins>
+                  <plugin>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                  </plugin>
+               </plugins>
 	</build>
 </project>

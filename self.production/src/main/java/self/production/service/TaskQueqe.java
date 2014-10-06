@@ -4,7 +4,7 @@ import java.util.Stack;
 
 
 
-public class TaskQueqe {
+public class TaskQueqe implements Runnable{
 	private Stack<Task> unDoTaskList;
 	private Stack<Task> doneTaskList;
 	private Task currentTask;
@@ -57,6 +57,14 @@ public class TaskQueqe {
 				task.run();
 				while (task.getStatus() != 1);
 				doneTaskList.push(task);
+		}
+	}
+
+	@Override
+	public void run() {
+		// TODO Auto-generated method stub
+		while (true) {
+			this.runTask();
 		}
 	}
 

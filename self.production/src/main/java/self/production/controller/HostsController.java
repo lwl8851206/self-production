@@ -147,8 +147,8 @@ public class HostsController {// 通过扩展Controller接口定义处理器
 		return "redirect:/hosts/hostsManager.do?owner=" + owner;
 	}
 
-	@ModelAttribute("already")
+	@ModelAttribute("currentTab")
 	public String generateAlready() {
-		return "i am already here";
+		return "hosts";
 	}
 }
