@@ -21,7 +21,9 @@
 
 	<!-- Enables the Spring MVC @Controller programming model -->
 	<mvc:annotation-driven />
-
+	
+	<!-- 处理静态资源 -->
+	<mvc:default-servlet-handler /> 
 	<bean
 		class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
 		<property name="messageConverters">
