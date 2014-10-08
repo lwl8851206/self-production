@@ -16,7 +16,7 @@
 						<div class="list-group">
 							<a class="list-group-item item-hover"
 								th:each="server : ${servers}" th:text="${server}"
-								th:href="@{/hosts/hostsManager.do(owner=${server})}"></a>
+								th:href="@{/hosts/hostsManager(owner=${server})}"></a>
 						</div>
 
 					</div>

@@ -15,7 +15,6 @@ public class IPInterceptor implements HandlerInterceptor{
 		// TODO Auto-generated constructor stub
 		
 	}
-
 	@Override
 	public boolean preHandle(HttpServletRequest httpservletrequest,
 			HttpServletResponse httpservletresponse, Object obj)

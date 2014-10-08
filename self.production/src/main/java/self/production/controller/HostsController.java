@@ -35,7 +35,7 @@ public class HostsController {// 通过扩展Controller接口定义处理器
 			.getLogger(HostsController.class);
 
 	// 匹配/index.do?nick=fdf,并且参数nick自动赋给nickName,ModelMap可以存储变量，传给模版
-	@RequestMapping("/hosts/hostsManager.do")
+	@RequestMapping("/hosts/hostsManager")
 	public String getHosts(@RequestParam("owner") String owner, ModelMap mm) {
 		List<String> hostsList = null;
 		hostsList = HostsUtil.getOnesHostsList(owner);
@@ -52,7 +52,7 @@ public class HostsController {// 通过扩展Controller接口定义处理器
 		return new HostsList(owner, hostsList.size(), hostsList);
 	}
 
-	@RequestMapping("/index.do")
+	@RequestMapping("/")
 	public String index(ModelMap mm) {
 		HashSet<String> serversSet = ServersUtil.getServers();
 		String[] servers = new String[serversSet.size()];
@@ -74,7 +74,7 @@ public class HostsController {// 通过扩展Controller接口定义处理器
 		HostsUtil.deleteHostsForOne(owner, hosts);
 		System.out.println(String.format(
 				"you haved deleted hosts[%s] from server[%s]", hosts, owner));
-		return "redirect:/hosts/hostsManager.do?owner=" + owner;
+		return "redirect:/hosts/hostsManager?owner=" + owner;
 	}
 
 	@RequestMapping(value = "/hosts/createHosts.do", method = RequestMethod.POST)
@@ -85,11 +85,11 @@ public class HostsController {// 通过扩展Controller接口定义处理器
 		System.out.println(String.format(
 				"you have create hosts[%s] for owner[%s]",
 				hostsContent.getHostsName(), hostsContent.getHostsOwner()));
-		return "redirect:/hosts/hostsManager.do?owner="
+		return "redirect:/hosts/hostsManager?owner="
 				+ hostsContent.getHostsOwner();
 	}
 
-	@RequestMapping("/hosts/addHosts.do")
+	@RequestMapping("/hosts/addHosts")
 	public String addHost(@RequestParam("owner") String owner,
 			@RequestParam(value = "hosts", required = false) String hosts,
 			ModelMap mm) {
@@ -144,7 +144,7 @@ public class HostsController {// 通过扩展Controller接口定义处理器
 					"params [\"%s\" or \"%s\" or \"%s\"] must mot be empty",
 					"hosts", "owner", "from");
 		HostsUtil.copyHosts(owner, server, hostsStrList);
-		return "redirect:/hosts/hostsManager.do?owner=" + owner;
+		return "redirect:/hosts/hostsManager?owner=" + owner;
 	}
 
 	@ModelAttribute("currentTab")

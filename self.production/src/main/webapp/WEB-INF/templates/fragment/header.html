@@ -8,10 +8,11 @@
 <meta charset="utf-8"></meta>
 <meta http-equiv="X-UA-Compatible" content="IE=edge"></meta>
 <meta name="viewport" content="width=device-width, initial-scale=1"></meta>
-<link th:href="@{/assets/public/css/common.css}" rel="stylesheet"></link>
+
 <!-- Bootstrap -->
 <link th:href="@{/assets/lib/bootstrap/css/bootstrap.min.css}" rel="stylesheet"></link>
-<link th:href="@{/assets/lib/icheck/skins/all.css}" rel="stylesheet">
+<link th:href="@{/assets/lib/flatui/dist/css/flat-ui.min.css}" rel="stylesheet">
+<link th:href="@{/assets/public/css/common.css}" rel="stylesheet"></link>
 <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
 <!--[if lt IE 9]>
@@ -21,7 +22,7 @@
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script th:src="@{/assets/lib/jquery/jquery.min.js}"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
-<script th:src="@{/assets/lib/bootstrap/js/bootstrap.min.js}"></script>
+<!-- <script th:src="@{/assets/lib/bootstrap/js/bootstrap.min.js}"></script> -->
 
 <title>管理首页</title>
 	<base th:href="@{/}"></base>
@@ -45,9 +46,9 @@
 			<div class="collapse navbar-collapse"
 				id="bs-example-navbar-collapse-9">
 				<ul class="nav navbar-nav">
- 					<li th:class="${#strings.contains(currentTab, 'hosts')}?'active':''"><a th:href="@{/index.do}">切换hosts</a></li>
+ 					<li th:class="${#strings.contains(currentTab, 'hosts')}?'active':''"><a th:href="@{/}">切换hosts</a></li>
 					<li th:class="${#strings.contains(currentTab, 'database')}?'active':''"><a href="#">同步数据库</a></li>
-					<li th:class="${#strings.contains(currentTab, 'war')}?'active':''"><a th:href="@{/war/warToUpload.do(owner=${owner})}">更换war包</a></li> 
+					<li th:class="${#strings.contains(currentTab, 'war')}?'active':''"><a th:href="@{/war/warToUpload(owner=${owner})}">更换war包</a></li> 
 				</ul>
 			</div>
 

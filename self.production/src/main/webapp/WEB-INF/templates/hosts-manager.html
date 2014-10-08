@@ -4,12 +4,13 @@
 <head th:include="fragment/header :: head"></head>
 
 <body ng-controller="HostsManagerCtrl">
-<nav th:include="fragment/header::nav" class="navbar navbar-inverse" role="navigation"></nav>
+	<nav th:include="fragment/header::nav" class="navbar navbar-inverse"
+		role="navigation"></nav>
 	<section>
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<h3 class="panel-title" th:inline="text">
-					<a th:href="@{index.do}">hosts管理</a>-->[[${owner}]]
+					<a th:href="@{/}">hosts管理</a>-->[[${owner}]]
 				</h3>
 				<input id="server" type="hidden" th:value="${owner}"></input>
 			</div>
@@ -20,22 +21,22 @@
 							<div class="list-group-item" th:each="hosts : ${hostsList}"
 								th:if="${not #lists.isEmpty(hostsList)}" th:inline="text">
 								[[${hosts}]] <span id="changehosts"
-									class="text-info badge  pull-right item-hover"
+									class="badge  pull-right item-hover"
 									ng-click="changeHosts(hosts);">切换至该hosts</span> <a
 									id="deletehosts"
-									class="text-danger badge  pull-right item-hover"
+									class=" badge  pull-right item-hover"
 									th:href="@{/hosts/deleteHosts.do(owner=${owner}, hosts=${hosts})}">删除hosts</a>
 								<a id="edithosts"
-									th:href="@{/hosts/addHosts.do(owner=${owner}, hosts=${hosts})}"
-									class="text-success badge  pull-right item-hover">编辑hosts</a>
+									th:href="@{/hosts/addHosts(owner=${owner}, hosts=${hosts})}"
+									class=" badge  pull-right item-hover">编辑hosts</a>
 
 							</div>
 							<div class="list-group-item alert-info"
 								th:if="${not #lists.isEmpty(hostsList)}">
 								<a class="item-hover center"
-									th:href="@{/hosts/addHosts.do(owner=${owner})}">增加hosts</a>
-								&nbsp; <span class="item-hover center"
-									data-toggle="modal" data-target="#hosts-copy" ng-click="getServers();">拷贝公有的hosts</span>
+									th:href="@{/hosts/addHosts(owner=${owner})}">增加hosts</a> &nbsp;
+								<span class="item-hover center" data-toggle="modal"
+									data-target="#hosts-copy" ng-click="getServers();">拷贝公有的hosts</span>
 							</div>
 						</div>
 
@@ -44,15 +45,16 @@
 							<ul>
 								<li><span class="item-hover"
 									ng-click="copyHost($event.target);" data-toggle="modal"
-									data-target="#hosts-copy" ng-click="getServers();">拷贝公有的hosts</span></li>
+									data-target="#hosts-copy" ng-click="getServers();"
+									id="copy-button">拷贝公有的hosts</span></li>
 								<li><a class="item-hover"
-									th:href="@{/hosts/addHosts.do(owner=${owner})}">增加自己的hosts</a></li>
+									th:href="@{/hosts/addHosts(owner=${owner})}">增加自己的hosts</a></li>
 							</ul>
 						</div>
 
 						<!-- Modal -->
-						<div class="modal fade" id="hosts-copy" tabindex="-1"
-							role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+						<div class="modal fade" id="hosts-copy" role="dialog"
+							aria-labelledby="myModalLabel" aria-hidden="true">
 							<div class="modal-dialog">
 								<div class="modal-content">
 									<div class="modal-header">
@@ -62,10 +64,11 @@
 										<h4 class="modal-title" id="myModalLabel">拷贝hosts</h4>
 									</div>
 									<div class="modal-body">
-										<form method="post"  th:action="@{hosts/copyHosts.do(owner=${owner})}">
-										<!-- Single button -->
-										<div class="btn-group">
-<!-- 										  <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+										<form method="post"
+											th:action="@{hosts/copyHosts.do(owner=${owner})}" name="cphosts">
+											<!-- Single button -->
+											<div class="btn-group">
+												<!-- 										  <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
 										    服务器列表 <span class="caret"></span>
 										  </button>
 										  <ul class="dropdown-menu" role="menu" id="servers-list">
@@ -73,42 +76,40 @@
 										    <li class="divider"></li>
 										    <li><a href="#">Separated link</a></li>
 										  </ul> -->
-										
-										  <select name="server" class="btn btn-success" ng-model="selected" onchange="javascript:angular.element('body').scope().getOnesHostsList(this.value);">
-										  		<option ng-value="server" ng-repeat="server in servers" >{{server}}</option>
-										  </select>
-										 <label class="btn" for="servers-list"  >请选择一个服务器</label>
-										</div>
-										
-										<div id="hosts-list">
-										<ul class="list">
-							                <li ng-repeat="hosts in hostsList">
-							                  <input type="checkbox" ng-value="hosts" name="hosts"><label>{{hosts}}</label><br>
-							                </li>
-<!-- 							                <li>
-							                  <div class="icheckbox_square-pink checked"><input tabindex="10" type="checkbox" id="square-checkbox-2" checked="" style="position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; background-color: rgb(255, 255, 255); border: 0px; opacity: 0; background-position: initial initial; background-repeat: initial initial;"><ins class="iCheck-helper" style="position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; background-color: rgb(255, 255, 255); border: 0px; opacity: 0; background-position: initial initial; background-repeat: initial initial;"></ins></div>
-							                  <label for="square-checkbox-2" class="">Checkbox 2</label>
-							                </li>
-							                <li>
-							                  <div class="icheckbox_square-pink disabled"><input type="checkbox" id="square-checkbox-disabled" disabled="" style="position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; background-color: rgb(255, 255, 255); border: 0px; opacity: 0; background-position: initial initial; background-repeat: initial initial;"><ins class="iCheck-helper" style="position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; background-color: rgb(255, 255, 255); border: 0px; opacity: 0; background-position: initial initial; background-repeat: initial initial;"></ins></div>
-							                  <label for="square-checkbox-disabled">Disabled</label>
-							                </li>
-							                <li>
-							                  <div class="icheckbox_square-pink checked disabled"><input type="checkbox" id="square-checkbox-disabled-checked" checked="" disabled="" style="position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; background-color: rgb(255, 255, 255); border: 0px; opacity: 0; background-position: initial initial; background-repeat: initial initial;"><ins class="iCheck-helper" style="position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; background-color: rgb(255, 255, 255); border: 0px; opacity: 0; background-position: initial initial; background-repeat: initial initial;"></ins></div>
-							                  <label for="square-checkbox-disabled-checked">Disabled &amp; checked</label>
-							                </li> -->
-							              </ul>
-									</div>
-										
-									<button type="submit">拷贝所选hosts</button>										
+
+												<select name="server" class="btn btn-success"
+													ng-model="selected"
+													onchange="javascript:angular.element('body').scope().getOnesHostsList(this.value);">
+													<option ng-value="server" ng-repeat="server in servers">{{server}}</option>
+												</select> <span class="btn" for="servers-list">请选择一个服务器</span>
+											</div>
+
+											<div id="hosts-list">
+												<ul class="list">
+													<li ng-repeat="hosts in hostsList">
+<!-- 														<input type="checkbox" ng-value="hosts" name="hosts"
+														id="hosts"> 
+														<label for="hosts">{{hosts}}</label>  -->
+														<label class="checkbox" > 
+															<input
+															type="checkbox" checked="checked" ng-value="hosts"  name="hosts"
+														id="hosts" 	data-toggle="checkbox" class="custom-checkbox"><span
+															class="icons"><span class="icon-unchecked"></span><span
+																class="icon-checked"></span></span> {{hosts}}
+													</label>
+													</li>
+												</ul>
+											</div>
+
+<!-- 											<button type="submit" class="btn btn-primary btn-sm"  ng-show="hostsList">拷贝所选hosts</button> -->
 										</form>
 
-										
+
 									</div>
 									<div class="modal-footer">
-										<button type="button" class="btn btn-default"
+										<button type="button" class="btn btn-default btn-sm"
 											data-dismiss="modal">关闭</button>
-										<button type="button" class="btn btn-primary">确定</button>
+											<button class="btn btn-primary btn-sm"  ng-show="hostsList" onclick="cphosts.submit();">拷贝所选hosts</button>
 									</div>
 								</div>
 							</div>
@@ -122,9 +123,15 @@
 	</section>
 	<script src="assets/lib/angular/angular.min.js"></script>
 	<script src="assets/public/js/hostsmanagerController.js"></script>
-	<script src="assets/lib/icheck/icheck.min.js"></script>
-
-
-
+	<script th:src="@{/assets/lib/flatui/dist/js/flat-ui.min.js}"></script>
+	<script>
+	$(function() {
+		$('#hosts-copy').modal({"show": false}});
+		$("#copy-button").on("click", function() {
+			$('#hosts-copy').modal('show');
+		});
+		
+	});
+	</script>
 </body>
 </html>

@@ -8,7 +8,7 @@
 	<section>
 		<div class="panel panel-default">
 			<div class="panel-heading">
-				<h3 class="panel-title" th:inline="text" ><a th:href="@{index.do}">hosts管理</a>-->[[${owner}]]</h3>
+				<h3 class="panel-title" th:inline="text" ><a th:href="@{/}">hosts管理</a>-->[[${owner}]]</h3>
 				<input id="server" type="hidden" th:value="${owner}"></input>
 			</div>
 			<div class="panel-body">
@@ -26,15 +26,15 @@
 									class="text-danger badge  pull-right item-hover"
 									th:href="@{/hosts/deleteHosts.do(owner=${owner}, hosts=${hosts})}">删除hosts</a>
 									<a
-									id="edithosts"  th:href="@{/hosts/addHosts.do(owner=${owner}, hosts=${hosts})}"
+									id="edithosts"  th:href="@{/hosts/addHosts(owner=${owner}, hosts=${hosts})}"
 									class="text-success badge  pull-right item-hover"
 									>编辑hosts</a>
 									
 							</div>
 							<div class="list-group-item alert-info"  th:if="${not #lists.isEmpty(hostsList)}">
-								<a class="item-hover center"  th:href="@{/hosts/addHosts.do(owner=${owner})}">增加hosts</a>
+								<a class="item-hover center"  th:href="@{/hosts/addHosts(owner=${owner})}">增加hosts</a>
 								&nbsp;
-								<a class="item-hover center"  th:href="@{/hosts/addHosts.do(owner=${owner})}">拷贝公有的hosts</a>
+								<a class="item-hover center"  th:href="@{/hosts/addHosts(owner=${owner})}">拷贝公有的hosts</a>
 							</div>
 						</div>
 
@@ -42,7 +42,7 @@
 							当前服务器没有可用的hosts列表.
 							<ul>
 								<li><span class="item-hover" ng-click="copyHost($event.target);">拷贝公有的hosts</span></li>
-								<li><a class="item-hover"  th:href="@{/hosts/addHosts.do(owner=${owner})}">增加自己的hosts</a></li>
+								<li><a class="item-hover"  th:href="@{/hosts/addHosts(owner=${owner})}">增加自己的hosts</a></li>
 							</ul>
 						</div>
 					</div>
