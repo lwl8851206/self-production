@@ -12,31 +12,30 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import self.production.util.ServersUtil;
 
 @Controller
-public class WarController {
+public class SqlController {
 
-	public WarController() {
+	public SqlController() {
 		// TODO Auto-generated constructor stub
 	}
 	
-	@RequestMapping("/war/warToUpload")
+	@RequestMapping("/sql/sqlExecute")
 	public String warToUpload(ModelMap mm) {
 		HashSet<String> serversSet = ServersUtil.getServers();
 		String[] servers = new String[serversSet.size()];
 		serversSet.toArray(servers);
 		mm.addAttribute("servers", servers);
 //		mm.put("owner", owner);
-		return "updatewar";
+		return "sql-execute";
 	}
 	
-	@RequestMapping("/war/updateWar.do")
+	@RequestMapping("/sql/executeSql.do")
 	@ResponseBody
-	public String updateWar(@RequestParam("servers") String server, @RequestParam("path")String path) {
+	public String updateWar(@RequestParam("servers") String server, @RequestParam("sql")String path) {
 		return "haha";
 	}
 	
 	@ModelAttribute("currentTab")
 	public String generateAlready() {
-		return "war";
+		return "sql";
 	}
-
 }

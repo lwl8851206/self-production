@@ -26,6 +26,13 @@ hostsManagerController.controller('HostsManagerCtrl', [ '$scope',
 				});
 			}
 			
+			$scope.checkNull = function(obj) {
+				if (obj.length == 0 || obj == null || obj == "")
+					return true;
+				else
+					return false;
+			}
+			
 			/**
 			 * 更改hosts
 			 */

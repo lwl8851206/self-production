@@ -8,19 +8,23 @@
 	<section>
 		<div class="panel panel-default">
 			<div class="panel-heading">
-				<h3 class="panel-title">服务器hosts管理</h3>
+				<h3 class="panel-title"><span class="fui-list-large-thumbnails"></span>服务器管理</h3>
 			</div>
 			<div class="panel-body">
-				<div class="row">
-					<div class="col-md-4">
+				<div class="row server-container">
+<!-- 					<div class="col-md-4">
 						<div class="list-group">
 							<a class="list-group-item item-hover"
 								th:each="server : ${servers}" th:text="${server}"
 								th:href="@{/hosts/hostsManager(owner=${server})}"></a>
 						</div>
 
-					</div>
-
+					</div> -->
+					<a class="col-xs-2 server-col" th:each="server : ${servers}" th:inline="text" th:href="@{/hosts/hostsManager(owner=${server})}">
+						<span class="server-col-title"><span class="fui-document"></span>[[${#strings.toUpperCase(server)}]]</span>
+						<p class="server-col-hosts-desc" th:if="${server} != 'public'">目前hosts: <span class="text-danger">7284</span></p>
+						<p class="server-public-desc" th:if="${server} == 'public'">拥有完整的hosts</p>
+					</a>
 				</div>
 			</div>
 		</div>

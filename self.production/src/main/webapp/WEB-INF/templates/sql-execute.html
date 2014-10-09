@@ -1,15 +1,15 @@
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring3-3.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:th="http://www.thymeleaf.org" ng-app="warController">
+	xmlns:th="http://www.thymeleaf.org" ng-app="sqlController">
 <head th:include="fragment/header :: head"></head>
 
-<body ng-controller="warCtrl">
+<body ng-controller="sqlCtrl">
 <nav th:include="fragment/header::nav" class="navbar navbar-inverse" role="navigation"></nav>
 	<section>
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<h3 class="panel-title" th:inline="text">
-					<span class="fui-checkbox-checked"></span>选择服务器更新war包
+					<span class="fui-checkbox-checked"></span>选择服务器执行sql
 				</h3>
 				<!-- 	<input id="server" type="hidden" th:value="${owner}"></input> -->
 			</div>
@@ -23,10 +23,10 @@
             						</label>
 							</div>
 						<div class="form-group " >
-		            			<input type="text"  name="path"  placeholder="请附上完整的svn或者ftp路径" class="form-control col-md-4" ng-model="path">
+		            			<textarea name="sql"  placeholder="请粘贴sql语句" class="form-control col-md-4" ng-model="sql" rows=7></textarea>
 		          		</div>
 							
-									<span class="btn btn-danger" style="margin-top:20px;"  ng-disabled="path==null || path==''"  ng-click="updateWar();">更新</span>
+									<span class="btn btn-danger" style="margin-top:20px;"  ng-disabled="sql==null || sql==''"  ng-click="executeSql();">执行sql</span>
 									
 					</div>
 
@@ -35,7 +35,7 @@
 		</div>
 	</section>
 	<script src="assets/lib/angular/angular.min.js"></script>
-	<script th:src="@{/assets/public/js/warController.js}"></script>
+	<script th:src="@{/assets/public/js/sqlController.js}"></script>
 
 
 

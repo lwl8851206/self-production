@@ -1,6 +1,6 @@
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring3-3.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:th="http://www.thymeleaf.org" ng-app>
+	xmlns:th="http://www.thymeleaf.org" ng-app="hostsAddApp">
 <head th:include="fragment/header :: head"></head>
 
 <body ng-controller="hostsAddController">
@@ -9,8 +9,10 @@
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<h3 class="panel-title" th:inline="text">
-					<a th:href="@{/}">hosts管理</a>-><a class="item-hover"
-						th:href="@{/hosts/hostsManager(owner=${owner})}">[[${owner}]]</a>->增加hosts
+					<a th:href="@{/}">服务器管理</a>-><a class="item-hover"
+						th:href="@{/hosts/hostsManager(owner=${owner})}">[[${owner}]]</a>->
+						<span th:if="${#strings.isEmpty(hosts)}">新增hosts</span>
+						<span th:unless="${#strings.isEmpty(hosts)}">编辑hosts</span>
 				</h3>
 				<!-- 	<input id="server" type="hidden" th:value="${owner}"></input> -->
 			</div>
@@ -23,13 +25,13 @@
 							<div class="form-group">
 								<label for="hosts-name" class="col-sm-2 control-label">hosts名称</label>
 								<div class="col-sm-10">
-									<input type="text" class="form-control" id="hosts-name"
+									<input type="text" class="form-control" id="hosts-name" ng-model="hostsname" 
 										name="hostsName" placeholder="请填写hosts名称" th:value="${hosts}"
-										th:disabled="${!#strings.isEmpty(hosts)}"  ng-model="hosts-name"></input> 
+										th:disabled="${!#strings.isEmpty(hosts)}"  ></input> 
 										<input
 										type="hidden" class="form-control" id="hidden-hosts-name"
 										name="hostsName" placeholder="请填写hosts名称" th:value="${hosts}"
-										th:if="${!#strings.isEmpty(hosts)}" ng-model="hosts-name"></input>
+										th:if="${!#strings.isEmpty(hosts)}" ></input>
 								</div>
 							</div>
 							<div class="form-group">
@@ -38,7 +40,7 @@
 									<textarea class="form-control" rows="10" id="hosts-content"
 										name="hostsContent" placeholder="hosts内容" th:inline="text" ng-model="content">[[${content}]]</textarea>
 								</div>
-							
+								
 								<input type="hidden" th:value="${owner}" id="hosts-owner"
 									name="hostsOwner" ></input>
 							</div>
@@ -52,7 +54,8 @@
 							</div> -->
 							<div class="form-group">
 								<div class="col-sm-offset-2 col-sm-10">
-									<button type="submit" class="btn btn-info" ng-disabled="(hosts-name == '' || hosts-name == null) && (content == null || content == '') ">创建</button>
+									<button type="submit" class="btn btn-info" th:if="${#strings.isEmpty(hosts)}" ng-disabled="(hostsname == '' || hostsname == null) || (content == null || content == '') ">创建</button>
+									<button type="submit" class="btn btn-danger"  th:unless="${#strings.isEmpty(hosts)}" ng-disabled="(hostsname == '' || hostsname == null) || (content == null || content == '') ">修改</button>
 								</div>
 							</div>
 						</form>
@@ -63,7 +66,16 @@
 		</div>
 	</section>
 	<script src="assets/lib/angular/angular.min.js"></script>
+	<script type="text/javascript" th:inline="javascript">
+	/*<![CDATA[*/
+	var hostsAddApp = angular.module('hostsAddApp', []);
 
+	hostsAddApp.controller('hostsAddController', function hostsAddApp($scope) {
+		$scope.hostsname = [[${hosts}]];
+		$scope.content = [[${content}]];
+	});
+	/*]]>*/
+	</script>
 
 </body>
 </html>

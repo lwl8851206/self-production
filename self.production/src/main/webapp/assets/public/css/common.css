@@ -1,8 +1,61 @@
 @CHARSET "UTF-8";
 
 .item-hover:hover {
-	background: rgba(0,0,0,0.3);
-	cursor: pointer;
+	background: rgba(0,0,0,0.1);
+    cursor: pointer; 
+}
+
+.server-container {
+	padding-top: 20px;
+}
+
+.server-col {
+	height: 150px;
+	margin-right: 30px;
+	margin-left: 20px;
+	margin-bottom: 20px;
+	text-align: center;
+	background-color: #eff0f2;
+	-webkit-transition: .25s linear;
+     transition: .25s linear;
+}
+
+.server-col:hover {
+	background-color: rgba(0,0,0,0.5);
+}
+
+.server-col:hover .server-col-title {
+	color: white;
+}
+
+
+.server-col:hover .server-col-hosts-desc {
+	color: white;
+}
+
+.server-col:hover .server-col-hosts-desc span{
+	color: yellow;
+}
+
+.server-col .server-col-title{
+	position:relative;
+	display: block;
+	margin-top: 20px;
+	margin-bottom: 30px;
+	font-weight: 400;
+	font-size: 1.3em;
+	color: rgb(52, 73, 94);
+	
+}
+
+.server-col .server-public-desc {
+	margin-top: -15px;
+	color: rgb(52, 73, 94);
+}
+
+
+.server-col .server-col-hosts-desc {
+	color: rgb(52, 73, 94);
 }
 
 body {

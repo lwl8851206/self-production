@@ -10,7 +10,7 @@
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<h3 class="panel-title" th:inline="text">
-					<a th:href="@{/}">hosts管理</a>-->[[${owner}]]
+					<a th:href="@{/}">服务器管理</a>-->[[${owner}]]
 				</h3>
 				<input id="server" type="hidden" th:value="${owner}"></input>
 			</div>
@@ -34,9 +34,9 @@
 							<div class="list-group-item alert-info"
 								th:if="${not #lists.isEmpty(hostsList)}">
 								<a class="item-hover center"
-									th:href="@{/hosts/addHosts(owner=${owner})}">增加hosts</a> &nbsp;
+									th:href="@{/hosts/addHosts(owner=${owner})}"><span class="fui-plus-circle"></span>新增hosts</a> &nbsp;
 								<span class="item-hover center" data-toggle="modal"
-									data-target="#hosts-copy" ng-click="getServers();">拷贝公有的hosts</span>
+									data-target="#hosts-copy" ng-click="getServers();"><span class="fui-windows"></span>拷贝hosts</span>
 							</div>
 						</div>
 
@@ -46,9 +46,9 @@
 								<li><span class="item-hover"
 									ng-click="copyHost($event.target);" data-toggle="modal"
 									data-target="#hosts-copy" ng-click="getServers();"
-									id="copy-button">拷贝公有的hosts</span></li>
+									id="copy-button"><span class="fui-windows"></span>拷贝hosts</span></li>
 								<li><a class="item-hover"
-									th:href="@{/hosts/addHosts(owner=${owner})}">增加自己的hosts</a></li>
+									th:href="@{/hosts/addHosts(owner=${owner})}"><span class="fui-plus-circle"></span>新增hosts</a></li>
 							</ul>
 						</div>
 
@@ -99,6 +99,10 @@
 													</label>
 													</li>
 												</ul>
+												<div class="col-md-12 clearfix" ng-show="checkNull(hostsList);">
+													<span class="fui-radio-unchecked"></span>抱歉,该服务器无可用的hosts
+												</div>
+												
 											</div>
 
 <!-- 											<button type="submit" class="btn btn-primary btn-sm"  ng-show="hostsList">拷贝所选hosts</button> -->
@@ -119,19 +123,13 @@
 
 			</div>
 		</div>
-
+	
 	</section>
 	<script src="assets/lib/angular/angular.min.js"></script>
 	<script src="assets/public/js/hostsmanagerController.js"></script>
 	<script th:src="@{/assets/lib/flatui/dist/js/flat-ui.min.js}"></script>
 	<script>
-	$(function() {
-		$('#hosts-copy').modal({"show": false}});
-		$("#copy-button").on("click", function() {
-			$('#hosts-copy').modal('show');
-		});
-		
-	});
+	
 	</script>
 </body>
 </html>
