@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import self.production.util.CmdReceiver;
 import self.production.util.ServersUtil;
 
 @Controller
@@ -30,7 +31,8 @@ public class WarController {
 	
 	@RequestMapping("/war/updateWar.do")
 	@ResponseBody
-	public String updateWar(@RequestParam("servers") String server, @RequestParam("path")String path) {
+	public String updateWar(@RequestParam("servers") String server, @RequestParam("path")String path, @RequestParam("mode")String mode) {
+		CmdReceiver.receivedCmd("SSH_UPDATE_WAR_MODE_" + mode, path).exec();
 		return "haha";
 	}
 	

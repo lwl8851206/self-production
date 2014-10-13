@@ -17,7 +17,7 @@
 				<div class="row">
 					<div class="col-md-6">
 							<div class="form-group">
-									<label class="checkbox"  th:each="server : ${servers}" th:inline="text">
+									<label class="checkbox"  th:each="server : ${servers}" th:inline="text" th:if="${server} != 'public'">
             							<input type="checkbox"     th:value="${server}" name="servers" data-toggle="checkbox" class="custom-checkbox" ><span class="icons"><span class="icon-unchecked"></span><span class="icon-checked"></span></span>
             							[[${server}]]
             						</label>
@@ -25,8 +25,11 @@
 						<div class="form-group " >
 		            			<textarea name="sql"  placeholder="请粘贴sql语句" class="form-control col-md-4" ng-model="sql" rows=7></textarea>
 		          		</div>
-							
-									<span class="btn btn-danger" style="margin-top:20px;"  ng-disabled="sql==null || sql==''"  ng-click="executeSql();">执行sql</span>
+						
+	
+							<span class="btn btn-danger" style="margin-top:20px;"  ng-disabled="sql==null || sql==''"  ng-click="executeSql();">执行sql</span>
+						
+									
 									
 					</div>
 
@@ -36,8 +39,6 @@
 	</section>
 	<script src="assets/lib/angular/angular.min.js"></script>
 	<script th:src="@{/assets/public/js/sqlController.js}"></script>
-
-
 
 
 </body>

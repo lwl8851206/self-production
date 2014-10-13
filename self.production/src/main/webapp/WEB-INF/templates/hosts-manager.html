@@ -20,9 +20,10 @@
 						<div class="list-group">
 							<div class="list-group-item" th:each="hosts : ${hostsList}"
 								th:if="${not #lists.isEmpty(hostsList)}" th:inline="text">
-								[[${hosts}]] <span id="changehosts"
+								[[${hosts}]] 
+								<span id="changehosts"
 									class="badge  pull-right item-hover"
-									ng-click="changeHosts(hosts);">切换至该hosts</span> <a
+									ng-click="changeHosts(hosts);" th:if="${owner} != 'public'">切换至该hosts</span> <a
 									id="deletehosts"
 									class=" badge  pull-right item-hover"
 									th:href="@{/hosts/deleteHosts.do(owner=${owner}, hosts=${hosts})}">删除hosts</a>
@@ -36,7 +37,7 @@
 								<a class="item-hover center"
 									th:href="@{/hosts/addHosts(owner=${owner})}"><span class="fui-plus-circle"></span>新增hosts</a> &nbsp;
 								<span class="item-hover center" data-toggle="modal"
-									data-target="#hosts-copy" ng-click="getServers();"><span class="fui-windows"></span>拷贝hosts</span>
+									data-target="#hosts-copy" ng-click="getServers();" th:if="${owner} != 'public'"><span class="fui-windows"></span>拷贝hosts</span>
 							</div>
 						</div>
 
@@ -46,7 +47,7 @@
 								<li><span class="item-hover"
 									ng-click="copyHost($event.target);" data-toggle="modal"
 									data-target="#hosts-copy" ng-click="getServers();"
-									id="copy-button"><span class="fui-windows"></span>拷贝hosts</span></li>
+									id="copy-button" th:if="${owner} != 'public'"><span class="fui-windows"></span>拷贝hosts</span></li>
 								<li><a class="item-hover"
 									th:href="@{/hosts/addHosts(owner=${owner})}"><span class="fui-plus-circle"></span>新增hosts</a></li>
 							</ul>

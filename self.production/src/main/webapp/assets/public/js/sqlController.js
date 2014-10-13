@@ -20,7 +20,7 @@ sqlController.controller('sqlCtrl', [ '$scope',
 					url : "sql/executeSql.do",
 					data : {
 						"servers": _arr.join(","),
-						"sql": sql
+						"sql": sql,
 					},
 					success : function(data) {
 						$scope.$apply(function(scope) {

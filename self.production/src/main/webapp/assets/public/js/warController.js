@@ -12,6 +12,7 @@ warController.controller('warCtrl', [ '$scope',
 			$scope.updateWar = function() {
 				var checkedBoxes = $("input:checked");
 				var path = $("input[type='text'").val();
+				var mode = $("select").val();
 				var _arr = [];
 				for (var index = 0; index < checkedBoxes.length; index++)
 					_arr.push(checkedBoxes[index].value);
@@ -20,7 +21,8 @@ warController.controller('warCtrl', [ '$scope',
 					url : "war/updateWar.do",
 					data : {
 						"servers": _arr.join(","),
-						"path": path
+						"path": path,
+						"mode": mode
 					},
 					success : function(data) {
 						$scope.$apply(function(scope) {

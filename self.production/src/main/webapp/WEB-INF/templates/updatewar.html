@@ -17,7 +17,7 @@
 				<div class="row">
 					<div class="col-md-6">
 							<div class="form-group">
-									<label class="checkbox"  th:each="server : ${servers}" th:inline="text">
+									<label class="checkbox"  th:each="server : ${servers}" th:inline="text" th:if="${server} != 'public'">
             							<input type="checkbox"     th:value="${server}" name="servers" data-toggle="checkbox" class="custom-checkbox" ><span class="icons"><span class="icon-unchecked"></span><span class="icon-checked"></span></span>
             							[[${server}]]
             						</label>
@@ -25,8 +25,12 @@
 						<div class="form-group " >
 		            			<input type="text"  name="path"  placeholder="请附上完整的svn或者ftp路径" class="form-control col-md-4" ng-model="path">
 		          		</div>
-							
-									<span class="btn btn-danger" style="margin-top:20px;"  ng-disabled="path==null || path==''"  ng-click="updateWar();">更新</span>
+						<select name="mode">
+								<option value="1">更新包&不重启tomcat</option>
+								<option value="2">更新包&修改了log为info&重启tomcat</option>
+						</select>
+						<br>	
+						<span class="btn btn-danger" style="margin-top:20px;"  ng-disabled="path==null || path==''"  ng-click="updateWar();">更新</span>
 									
 					</div>
 

@@ -15,7 +15,6 @@ public class IPInterceptor implements HandlerInterceptor{
 		// TODO Auto-generated constructor stub
 		
 	}
-	@Override
 	public boolean preHandle(HttpServletRequest httpservletrequest,
 			HttpServletResponse httpservletresponse, Object obj)
 			throws Exception {
@@ -34,7 +33,6 @@ public class IPInterceptor implements HandlerInterceptor{
 			return false;
 	}
 
-	@Override
 	public void postHandle(HttpServletRequest httpservletrequest,
 			HttpServletResponse httpservletresponse, Object obj,
 			ModelAndView modelandview) throws Exception {
@@ -42,7 +40,6 @@ public class IPInterceptor implements HandlerInterceptor{
 		
 	}
 
-	@Override
 	public void afterCompletion(HttpServletRequest httpservletrequest,
 			HttpServletResponse httpservletresponse, Object obj,
 			Exception exception) throws Exception {

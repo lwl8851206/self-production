@@ -97,7 +97,10 @@ hostsManagerController.controller('HostsManagerCtrl', [ '$scope',
 						$scope.$apply(function(scope) {
 							if (data != null) {
 								//scope.loadHosts(jQuery("#server").val());
-								$scope.servers = eval(data);
+								var filterData = eval(data).filter(function(value) {
+									return value != jQuery("#server").val();
+								});
+								$scope.servers = filterData;
 							}
 						});
 

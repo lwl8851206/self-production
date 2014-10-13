@@ -24,6 +24,7 @@ public class SSHCmdExec extends Cmd {
 			ConnectionInfo info = con.connect();
 			boolean result = con.authenticateWithPassword("long", "l123123");
 			Session session = con.openSession();
+//			session.execCommand(String.format(this.getCmd(), this.getArgss()));
 			session.execCommand("ls -al");
 			InputStream in = session.getStdout();
 			byte[] bt = new byte[1024];
