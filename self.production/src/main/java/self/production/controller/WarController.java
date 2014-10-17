@@ -32,7 +32,7 @@ public class WarController {
 	@RequestMapping("/war/updateWar.do")
 	@ResponseBody
 	public String updateWar(@RequestParam("servers") String server, @RequestParam("path")String path, @RequestParam("mode")String mode) {
-		CmdReceiver.receivedCmd("SSH_UPDATE_WAR_MODE_" + mode, path).exec();
+		receivedCmd("SSH_UPDATE_WAR_MODE_" + mode, path)
 		return "haha";
 	}
 	

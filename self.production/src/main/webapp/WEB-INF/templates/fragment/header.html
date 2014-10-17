@@ -49,6 +49,7 @@
  					<li th:class="${#strings.contains(currentTab, 'hosts')}?'active':''"><a th:href="@{/}">切换hosts</a></li>
 					<li th:class="${#strings.contains(currentTab, 'sql')}?'active':''"><a th:href="@{/sql/sqlExecute}">同步数据库</a></li>
 					<li th:class="${#strings.contains(currentTab, 'war')}?'active':''"><a th:href="@{/war/warToUpload}">更换war包</a></li> 
+					<li th:class="${#strings.contains(currentTab, 'war')}?'active side-right':'side-right'"><a th:href="@{/war/warToUpload}">任务队列</a></li> 
 				</ul>
 			</div>
 

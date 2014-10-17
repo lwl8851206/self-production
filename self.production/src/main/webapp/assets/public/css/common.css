@@ -63,6 +63,24 @@ body {
 	padding: 0px 0px;
 }
 
+select.mode {
+	font-size: 0.7em;
+	font-family: "微软雅黑";
+}
+
+label.radio {
+	display: inline-block;
+	margin-right: 40px;
+}
+
+.side-right {
+	position: absolute !important;
+	right: 0px;
+}
+
+
+
+
 ul.list {
 	list-style-type: none;
 	list-style-position: inside;

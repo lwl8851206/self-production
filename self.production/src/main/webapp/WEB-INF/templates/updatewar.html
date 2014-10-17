@@ -15,21 +15,35 @@
 			</div>
 			<div class="panel-body">
 				<div class="row">
-					<div class="col-md-6">
+					<div class="col-md-12">
 							<div class="form-group">
 									<label class="checkbox"  th:each="server : ${servers}" th:inline="text" th:if="${server} != 'public'">
             							<input type="checkbox"     th:value="${server}" name="servers" data-toggle="checkbox" class="custom-checkbox" ><span class="icons"><span class="icon-unchecked"></span><span class="icon-checked"></span></span>
             							[[${server}]]
             						</label>
 							</div>
-						<div class="form-group " >
-		            			<input type="text"  name="path"  placeholder="请附上完整的svn或者ftp路径" class="form-control col-md-4" ng-model="path">
+							
+						<div class="form-group ">
+							<div class="row">
+								<div class="col-md-6">
+		            			<input type="text"    name="path"   placeholder="请附上完整的svn或者ftp路径" class="form-control"   ng-model="path">
+		          				</div>
+		          			</div>
 		          		</div>
-						<select name="mode">
+<!-- 						<select name="mode" class="btn btn-info mode">
 								<option value="1">更新包&不重启tomcat</option>
 								<option value="2">更新包&修改了log为info&重启tomcat</option>
-						</select>
-						<br>	
+						</select> -->
+
+							<label class="radio">
+            					<input type="radio" name="mode" id="mode" value="1" data-toggle="radio" class="custom-radio" checked><span class="icons"><span class="icon-unchecked"></span><span class="icon-checked"></span></span>
+           						 mode-1(更新包&不重启tomcat)
+    						</label>	
+    						<label class="radio">
+            					<input type="radio" name="mode" id="mode" value="2" data-toggle="radio" class="custom-radio"><span class="icons"><span class="icon-unchecked"></span><span class="icon-checked"></span></span>
+           						 mode-2(更新包&修改了log为info&重启tomcat)
+    						</label>	
+    					<br>
 						<span class="btn btn-danger" style="margin-top:20px;"  ng-disabled="path==null || path==''"  ng-click="updateWar();">更新</span>
 									
 					</div>

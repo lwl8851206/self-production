@@ -5,13 +5,13 @@ import java.util.Stack;
 
 
 public class TaskQueqe implements Runnable{
-	private Stack<Task> unDoTaskList;
-	private Stack<Task> doneTaskList;
-	private Task currentTask;
+	private Stack<ITask> unDoTaskList;
+	private Stack<ITask> doneTaskList;
+	private ITask currentTask;
 	
 	public TaskQueqe() {
-		this.unDoTaskList = new Stack<Task>();
-		this.doneTaskList = new Stack<Task>();
+		this.unDoTaskList = new Stack<ITask>();
+		this.doneTaskList = new Stack<ITask>();
 		// TODO Auto-generated constructor stub
 	}
 	
@@ -19,7 +19,7 @@ public class TaskQueqe implements Runnable{
 	 * 获取已执行完毕的任务队列
 	 * @return
 	 */
-	public Stack<Task> getdoneTaskList() {
+	public Stack<ITask> getdoneTaskList() {
 		return this.doneTaskList;
 	}
 	
@@ -27,7 +27,7 @@ public class TaskQueqe implements Runnable{
 	 * 获取未执行的任务队列
 	 * @return
 	 */
-	public Stack<Task> getUndoTaskList() {
+	public Stack<ITask> getUndoTaskList() {
 		return this.unDoTaskList;
 	}
 	
@@ -35,7 +35,7 @@ public class TaskQueqe implements Runnable{
 	 * 获取当前正在执行的任务队列
 	 * @return
 	 */
-	public Task getCurrentTask() {
+	public ITask getCurrentTask() {
 		return this.currentTask;
 	}
 	
@@ -43,7 +43,7 @@ public class TaskQueqe implements Runnable{
 	 * 将任务加入到当前任务队列当中
 	 * @param task
 	 */
-	public void addTask(Task task) {
+	public void addTask(ITask task) {
 		this.unDoTaskList.push(task);
 	}
 	
@@ -51,7 +51,7 @@ public class TaskQueqe implements Runnable{
 	 * 执行任务
 	 */
 	public  void runTask() {
-		Task task = null;
+		ITask task = null;
 		while (!(unDoTaskList.isEmpty())) {
 				task = unDoTaskList.pop();
 				task.run();

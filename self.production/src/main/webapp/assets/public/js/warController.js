@@ -10,13 +10,13 @@ warController.controller('warCtrl', [ '$scope',
 			/* $scope.hosts = ($routeParams.hosts == null); */
 			// 获取当前的可提供切换的hosts列表
 			$scope.updateWar = function() {
-				var checkedBoxes = $("input:checked");
+				var checkedBoxes = $("input.custom-checkbox:checked");
 				var path = $("input[type='text'").val();
-				var mode = $("select").val();
+				var mode = $("input#mode:checked").val();
 				var _arr = [];
 				for (var index = 0; index < checkedBoxes.length; index++)
 					_arr.push(checkedBoxes[index].value);
-				
+				console.log("_arr:" + _arr);
 				jQuery.ajax({
 					url : "war/updateWar.do",
 					data : {
